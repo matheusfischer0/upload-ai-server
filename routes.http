@@ -1,1 +1,40 @@
-GET http://localhost:3333
+
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload-videos
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="financas.mp3"
+Content-Type: audio/mpeg
+
+< ./financas.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/b0d1e3aa-8880-4cf7-87f2-fb3e220aa75f/transcription
+Content-Type: application/json
+
+{
+  "prompt": "finanças, ações, dividendos"
+}
+
+###
+
+# @name generate-ai-transcription
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "b0d1e3aa-8880-4cf7-87f2-fb3e220aa75f",
+  "template": "Gere um resumo sucinto da transcrição do video informada a seguir: '''{transcription}'''",
+  "temperature": 0.5
+}
+
+###
